@@ -1,0 +1,279 @@
+{
+	"info": {
+		"_postman_id": "a5931b19-1917-4640-b4bc-5f20dcafc5ab",
+		"name": "testcollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all comments id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "14f6d0ec-2353-4a67-911c-cc3447cea938",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"response include records\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"records\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response includes records\", function()",
+							"{",
+							"    pm.expect(pm.response.json()).to.include.keys(\"records\");",
+							"    ",
+							"});",
+							"",
+							"let response = pm.response.json();",
+							"let records = [];",
+							" ",
+							" //var jsonData=JSON.parse(pm.response);",
+							" //console.log(response.records[0].id);",
+							"//console.log(\"response\"+ pm.response.json());",
+							"",
+							"",
+							"",
+							" pm.environment.set(\"counter\", 0);",
+							"",
+							"",
+							"let currentCounter =parseInt(pm.environment.get(\"counter\"));",
+							"let numberOfloops = response.records.length;",
+							"",
+							"if (currentCounter<numberOfloops)",
+							"{",
+							"   ",
+							" let newurl=response.records[currentCounter].id;",
+							"   //pm.collectionVariables.set(\"newurl\", newurl);",
+							"  console.log(response.records[currentCounter].id);",
+							"   pm.globals.set(\"newurl\", newurl);",
+							" ",
+							" postman.nextrequest(\"firstrequest\");",
+							"",
+							"",
+							" ",
+							"",
+							" ",
+							" ",
+							"}",
+							"",
+							"currentCounter ++;",
+							"pm.environment.set(\"counter\", currentCounter);",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://bbtestassignment.now.sh/api/v1/comments.json?base_id=appIHLByjiYtsdYWJ&limit=10",
+					"protocol": "https",
+					"host": [
+						"bbtestassignment",
+						"now",
+						"sh"
+					],
+					"path": [
+						"api",
+						"v1",
+						"comments.json"
+					],
+					"query": [
+						{
+							"key": "base_id",
+							"value": "appIHLByjiYtsdYWJ"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				},
+				"description": "Get all comments id request "
+			},
+			"response": []
+		},
+		{
+			"name": "firstrequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "96be310c-110a-4a90-a061-27da60f675ce",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"console.log(pm.collectionVariables.get(\"urltest\"));",
+							" postman.setNextRequest(\"validateresponse\");",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "authority",
+						"value": "bbtestassignment.now.sh"
+					},
+					{
+						"key": "cache-control",
+						"value": "max-age=0"
+					},
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "origin",
+						"value": "https://bbtestassignment.now.sh"
+					},
+					{
+						"key": "user-agent",
+						"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36"
+					},
+					{
+						"key": "content-type",
+						"value": "application/json"
+					},
+					{
+						"key": "sec-fetch-site",
+						"value": "same-origin"
+					},
+					{
+						"key": "sec-fetch-mode",
+						"value": "cors"
+					},
+					{
+						"key": "referer",
+						"value": "https://bbtestassignment.now.sh/"
+					},
+					{
+						"key": "accept-encoding",
+						"value": "gzip, deflate, br"
+					},
+					{
+						"key": "accept-language",
+						"value": "en-US,en;q=0.9"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"status\":\"visible\",\"classification\":\"positive\",\"base_id\":\"appIHLByjiYtsdYWJ\"}\n\n\n"
+				},
+				"url": {
+					"raw": "https://bbtestassignment.now.sh/api/v1/comments/{{newurl}}.json",
+					"protocol": "https",
+					"host": [
+						"bbtestassignment",
+						"now",
+						"sh"
+					],
+					"path": [
+						"api",
+						"v1",
+						"comments",
+						"{{newurl}}.json"
+					]
+				},
+				"description": "1st test case -- Put request -- classification:  \"positive\" -- Status: \"visible\""
+			},
+			"response": []
+		},
+		{
+			"name": "validateresponse",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9fbcb465-59fc-4fa8-9faf-52136b5e9650",
+						"exec": [
+							"let jsonData=pm.response.json();",
+							"",
+							"",
+							"console.log(jsonData.records[0].fields.classification);",
+							"pm.test(\"matching classification and status\", function()",
+							"{",
+							"pm.expect(jsonData.records[0].fields.classification).to.eql(\"positive\");",
+							"pm.expect(jsonData.records[0].fields.status).to.eql(\"visible\");",
+							"",
+							"});",
+							"",
+							"",
+							" postman.setNextRequest(\"Get all comments id\");",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://bbtestassignment.now.sh/api/v1/comments.json?base_id=appIHLByjiYtsdYWJ&limit=5",
+					"protocol": "https",
+					"host": [
+						"bbtestassignment",
+						"now",
+						"sh"
+					],
+					"path": [
+						"api",
+						"v1",
+						"comments.json"
+					],
+					"query": [
+						{
+							"key": "base_id",
+							"value": "appIHLByjiYtsdYWJ"
+						},
+						{
+							"key": "limit",
+							"value": "5"
+						}
+					]
+				},
+				"description": "matching values of classification and status "
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"id": "3d7f57c8-fff7-4cd7-af0f-1a865e1196cd",
+			"key": "urltest",
+			"value": "recFZVu7ZM9vWSOqB",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
